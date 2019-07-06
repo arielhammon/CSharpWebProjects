@@ -26,8 +26,8 @@ namespace StudentManagementSystem.Controllers
                 {
                     var student = new Student();
                     student.ID = Convert.ToInt32(reader["ID"]);
-                    student.FirstName = reader["FirstName"].ToString();
-                    student.LastName = reader["LastName"].ToString();
+                    student.FirstName = reader["FirstName"].ToString().Trim();
+                    student.LastName = reader["LastName"].ToString().Trim();
                     students.Add(student);
                 }
                 connection.Close();
@@ -51,6 +51,67 @@ namespace StudentManagementSystem.Controllers
                 command.Parameters["@FirstName"].Value = student.FirstName;
                 command.Parameters["@LastName"].Value = student.LastName;
 
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+            return RedirectToAction("Index");
+        }
+        public ActionResult Details(int ID)
+        {
+            string queryString = "Select * From Students where ID = @ID";
+            var student = new Student();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@ID", SqlDbType.Int);
+                command.Parameters["@ID"].Value = ID;
+                connection.Open();
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    student.ID = Convert.ToInt32(reader["ID"]);
+                    student.FirstName = reader["FirstName"].ToString().Trim();
+                    student.LastName = reader["LastName"].ToString().Trim();
+                }
+                connection.Close();
+            }
+            return View(student);
+        }
+        public ActionResult Edit(int ID)
+        {
+            string queryString = "Select * From Students Where ID = @ID";
+            var student = new Student();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@ID", SqlDbType.Int);
+                command.Parameters["@ID"].Value = ID;
+                connection.Open();
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    student.ID = Convert.ToInt32(reader["ID"]);
+                    student.FirstName = reader["FirstName"].ToString().Trim();
+                    student.LastName = reader["LastName"].ToString().Trim();
+                }
+                connection.Close();
+            }
+            return View(student);
+        }
+        [HttpPost]
+        public ActionResult Edit(Student student)
+        {
+            string queryString = @"Update Students set FirstName=@FirstName, LastName=@LastName Where ID=@ID";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var command = new SqlCommand(queryString, connection);
+                command.Parameters.Add("@ID", SqlDbType.Int);
+                command.Parameters.Add("@FirstName", SqlDbType.VarChar);
+                command.Parameters.Add("@LastName", SqlDbType.VarChar);
+                command.Parameters["@ID"].Value = student.ID;
+                command.Parameters["@FirstName"].Value = student.FirstName;
+                command.Parameters["@LastName"].Value = student.LastName;
                 connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();

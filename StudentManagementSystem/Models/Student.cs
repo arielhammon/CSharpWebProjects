@@ -7,8 +7,8 @@ namespace StudentManagementSystem.Models
 {
     public class Student
     {
-        public int ID { get; internal set; }
-        public string FirstName { get; internal set; }
-        public string LastName { get; internal set; }
+        public int ID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }
