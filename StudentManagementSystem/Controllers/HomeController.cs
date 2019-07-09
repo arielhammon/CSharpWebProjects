@@ -12,17 +12,9 @@ namespace StudentManagementSystem.Controllers
         {
             return View();
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Here is where you can get the project files or let us know what you think.";
 
             return View();
         }

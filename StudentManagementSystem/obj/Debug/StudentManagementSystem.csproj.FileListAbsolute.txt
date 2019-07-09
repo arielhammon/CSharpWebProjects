@@ -77,3 +77,4 @@ C:\Users\ahammon3\source\repos\CSharpWebProjects\StudentManagementSystem\bin\Ent
 C:\Users\ahammon3\source\repos\CSharpWebProjects\StudentManagementSystem\bin\EntityFramework.SqlServer.dll
 C:\Users\ahammon3\source\repos\CSharpWebProjects\StudentManagementSystem\bin\EntityFramework.xml
 C:\Users\ahammon3\source\repos\CSharpWebProjects\StudentManagementSystem\bin\EntityFramework.SqlServer.xml
+C:\Users\ahammon3\source\repos\CSharpWebProjects\StudentManagementSystem\obj\Debug\StudentManagementSystem.csprojAssemblyReference.cache

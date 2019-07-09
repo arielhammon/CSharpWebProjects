@@ -1,4 +1,4 @@
-﻿@model StudentManagementSystem.Models.Student
+﻿@model StudentManagementSystem.Models.StudentVM
 
 @{
     ViewBag.Title = "Details";
@@ -12,5 +12,44 @@ First name: @Model.FirstName
 <br />
 Last name: @Model.LastName
 <br />
+<br />
+<button onclick="location = '../edit/@Model.ID'">Edit</button>
+<button id="showDialog">Remove</button>
 
-<a href="../edit/@Model.ID">Edit</a>
+
+<div id="dialog" title="Remove Student">
+    <p>Are you sure you want to remove this student?</p>
+</div>
+
+@section scripts {
+<script src="~/Scripts/jquery-ui.js"></script>
+<script>
+    $(document).ready(ReadyDialog());
+
+    function ReadyDialog() {
+        $("#dialog").dialog({
+            autoOpen: false,
+            width: 400,
+            buttons: [
+                {
+                    text: "OK",
+                    click: function () {
+                        window.location = '../remove/@Model.ID'
+                    }
+                },
+                {
+                    text: "Cancel",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+        });
+
+        $("#showDialog").click(function (event) {
+            $("#dialog").dialog("open");
+            event.preventDefault();
+        });
+    }
+</script>
+}
