@@ -1,0 +1,92 @@
+﻿@model List<InsuranceQuoteDB.Models.QuoteSummaryVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All Quotes</h2>
+
+@if (Model is null || Model.Count() == 0)
+{
+    <h2>Sorry, we don't have any quotes saved for this user.</h2>
+}
+
+<div class="row">
+    <div class="col-sm-2">
+        <input class="form-control" type="button" onclick="location='/Quotes/Create'" value="Get Another Quote" />
+    </div>
+</div>
+
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col-sm-2">
+                Customer Name
+            </th>
+            <th class="col-sm-1">
+                Make
+            </th>
+            <th class="col-sm-1">
+                Model
+            </th>
+            <th class="col-sm-1">
+                Model Year
+            </th>
+            <th class="col-sm-3">
+                Option Package
+            </th>
+            <th class="col-sm-2">
+                Coverage
+            </th>
+            <th class="col-sm-1">
+                Date
+            </th>
+            <th class="col-sm-1 text-right">
+                Price&nbsp;
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.CustomerName
+                    </td>
+                    <td>
+                        @item.Make
+                    </td>
+                    <td>
+                        @item.Model
+                    </td>
+                    <td>
+                        @item.ModelYear
+                    </td>
+                    <td>
+                        @item.OptionPackage
+                    </td>
+                    <td>
+                        @item.Coverage
+                    </td>
+                    <td>
+                        @item.DateIssued.ToString("MM/dd/yyyy")
+                    </td>
+                    <td class="text-right">
+                        @item.Price
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<div class="row">
+    <div class="col-sm-2">
+        <input class="form-control" type="button" onclick="location='/Quotes/Create'" value="Get Another Quote" />
+    </div>
+</div>

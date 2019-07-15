@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InsuranceQuoteDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AutoMakes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CarMake" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="AutoModels">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AutoMakeID" Type="int" />
+    <Property Name="ModelName" Type="varchar" MaxLength="50" />
+    <Property Name="ModelYear" Type="int" />
+  </EntityType>
+  <EntityType Name="CoverageLevels">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="64" />
+    <Property Name="Description" Type="varchar" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="CustomerAspNetUsers">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+      <PropertyRef Name="AspNetUserID" />
+    </Key>
+    <Property Name="CustomerID" Type="int" Nullable="false" />
+    <Property Name="AspNetUserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomerDrivingHistory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateRecorded" Type="datetime" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="NumDUIs" Type="int" />
+    <Property Name="NumSpeedingTickets" Type="int" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="30" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="DateOfBirth" Type="date" />
+  </EntityType>
+  <EntityType Name="Quotes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="AutoMakeID" Type="int" />
+    <Property Name="AutoModelID" Type="int" />
+    <Property Name="DrivingHistoryID" Type="int" />
+    <Property Name="CoverageID" Type="int" />
+  </EntityType>
+  <Association Name="FK__Quotes__AutoMake__2A164134">
+    <End Role="AutoMakes" Type="Self.AutoMakes" Multiplicity="0..1" />
+    <End Role="Quotes" Type="Self.Quotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AutoMakes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quotes">
+        <PropertyRef Name="AutoMakeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Quotes__AutoMode__2B0A656D">
+    <End Role="AutoModels" Type="Self.AutoModels" Multiplicity="0..1" />
+    <End Role="Quotes" Type="Self.Quotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AutoModels">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quotes">
+        <PropertyRef Name="AutoModelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Quotes__Coverage__2CF2ADDF">
+    <End Role="CoverageLevels" Type="Self.CoverageLevels" Multiplicity="0..1" />
+    <End Role="Quotes" Type="Self.Quotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CoverageLevels">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quotes">
+        <PropertyRef Name="CoverageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Quotes__Customer__29221CFB">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+    <End Role="Quotes" Type="Self.Quotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quotes">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Quotes__DrivingH__2BFE89A6">
+    <End Role="CustomerDrivingHistory" Type="Self.CustomerDrivingHistory" Multiplicity="0..1" />
+    <End Role="Quotes" Type="Self.Quotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerDrivingHistory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quotes">
+        <PropertyRef Name="DrivingHistoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AutoMakeAutoModel">
+    <End Role="AutoMakes" Type="Self.AutoMakes" Multiplicity="0..1" />
+    <End Role="AutoModels" Type="Self.AutoModels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AutoMakes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AutoModels">
+        <PropertyRef Name="AutoMakeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerCustomerDrivingHistory">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+    <End Role="CustomerDrivingHistory" Type="Self.CustomerDrivingHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerDrivingHistory">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerCustomerLogin">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+    <End Role="CustomerAspNetUsers" Type="Self.CustomerAspNetUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerAspNetUsers">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="InsuranceQuoteDBModelStoreContainer">
+    <EntitySet Name="AutoMakes" EntityType="Self.AutoMakes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AutoModels" EntityType="Self.AutoModels" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CoverageLevels" EntityType="Self.CoverageLevels" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CustomerAspNetUsers" EntityType="Self.CustomerAspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CustomerDrivingHistory" EntityType="Self.CustomerDrivingHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Quotes" EntityType="Self.Quotes" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Quotes__AutoMake__2A164134" Association="Self.FK__Quotes__AutoMake__2A164134">
+      <End Role="AutoMakes" EntitySet="AutoMakes" />
+      <End Role="Quotes" EntitySet="Quotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Quotes__AutoMode__2B0A656D" Association="Self.FK__Quotes__AutoMode__2B0A656D">
+      <End Role="AutoModels" EntitySet="AutoModels" />
+      <End Role="Quotes" EntitySet="Quotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Quotes__Coverage__2CF2ADDF" Association="Self.FK__Quotes__Coverage__2CF2ADDF">
+      <End Role="CoverageLevels" EntitySet="CoverageLevels" />
+      <End Role="Quotes" EntitySet="Quotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Quotes__Customer__29221CFB" Association="Self.FK__Quotes__Customer__29221CFB">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Quotes" EntitySet="Quotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Quotes__DrivingH__2BFE89A6" Association="Self.FK__Quotes__DrivingH__2BFE89A6">
+      <End Role="CustomerDrivingHistory" EntitySet="CustomerDrivingHistory" />
+      <End Role="Quotes" EntitySet="Quotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AutoMakeAutoModel" Association="Self.FK_AutoMakeAutoModel">
+      <End Role="AutoMakes" EntitySet="AutoMakes" />
+      <End Role="AutoModels" EntitySet="AutoModels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerCustomerDrivingHistory" Association="Self.FK_CustomerCustomerDrivingHistory">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="CustomerDrivingHistory" EntitySet="CustomerDrivingHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerCustomerLogin" Association="Self.FK_CustomerCustomerLogin">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="CustomerAspNetUsers" EntitySet="CustomerAspNetUsers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

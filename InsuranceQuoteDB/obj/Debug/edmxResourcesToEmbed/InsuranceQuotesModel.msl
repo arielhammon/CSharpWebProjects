@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InsuranceQuoteDBModelStoreContainer" CdmEntityContainer="InsuranceQuoteDBEntities">
+    <EntitySetMapping Name="AutoMakes">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.AutoMake">
+        <MappingFragment StoreEntitySet="AutoMakes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CarMake" ColumnName="CarMake" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AutoModels">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.AutoModel">
+        <MappingFragment StoreEntitySet="AutoModels">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AutoMakeID" ColumnName="AutoMakeID" />
+          <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+          <ScalarProperty Name="ModelYear" ColumnName="ModelYear" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CoverageLevels">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.CoverageLevel">
+        <MappingFragment StoreEntitySet="CoverageLevels">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerAspNetUsers">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.CustomerAspNetUser">
+        <MappingFragment StoreEntitySet="CustomerAspNetUsers">
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerDrivingHistories">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.CustomerDrivingHistory">
+        <MappingFragment StoreEntitySet="CustomerDrivingHistory">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateRecorded" ColumnName="DateRecorded" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="NumDUIs" ColumnName="NumDUIs" />
+          <ScalarProperty Name="NumSpeedingTickets" ColumnName="NumSpeedingTickets" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.Customer">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quotes">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.Quote">
+        <MappingFragment StoreEntitySet="Quotes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="AutoMakeID" ColumnName="AutoMakeID" />
+          <ScalarProperty Name="AutoModelID" ColumnName="AutoModelID" />
+          <ScalarProperty Name="DrivingHistoryID" ColumnName="DrivingHistoryID" />
+          <ScalarProperty Name="CoverageID" ColumnName="CoverageID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

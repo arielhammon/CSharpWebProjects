@@ -1,0 +1,117 @@
+﻿@model InsuranceQuoteDB.Models.QuoteDetailVM
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<form action="" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <!--------------------------------Start Customer Info Section---------------------------------------->
+    <div class="form-horizontal">
+        <h4>Quote</h4>
+        <hr />
+        <div class="form-group">
+            <label class="control-label col-md-2">Customer ID</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.CustomerID" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">First Name</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.FirstName" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Last Name</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.LastName" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Date of Birth</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.DateOfBirth.ToString("MM/dd/yyyy")" />
+            </div>
+        </div>
+        <hr />
+        <!--------------------------------Start Driving History Section---------------------------------------->
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Number DUIs</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.NumDUIs" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Number Speeding Tickets</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.NumTickets" />
+            </div>
+        </div>
+        <hr />
+        <!--------------------------------End Driving History Section---------------------------------------->
+        <!--------------------------------Start Auto Make, Model, Options Section-------------------------------->
+        <div class="form-group">
+            <label class="control-label col-md-2">Make</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.Make" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Year</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.ModelYear" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Model</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.Model" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Option Package</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.OptionPackage" />
+            </div>
+        </div>
+        <hr />
+        <!--------------------------------End Auto Make, Model, Options Section-------------------------------->
+        <div class="form-group">
+            <label class="control-label col-md-2">Coverage Option</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.Coverage" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Date</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.DateIssued.ToString("MM/dd/yyyy")" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Price Quote</label>
+            <div class="col-md-10">
+                <input class="form-control" value="@Model.Price" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" onclick="location='/Admin'" value="Return to List" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>

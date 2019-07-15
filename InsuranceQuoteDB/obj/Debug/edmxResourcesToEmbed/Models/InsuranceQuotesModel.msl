@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InsuranceQuoteDBModelStoreContainer" CdmEntityContainer="InsuranceQuoteDBEntities">
+    <EntitySetMapping Name="AutoModels">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.AutoModel">
+        <MappingFragment StoreEntitySet="AutoModels">
+          <ScalarProperty Name="ModelRiskLevelID" ColumnName="ModelRiskLevelID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AutoMakeID" ColumnName="AutoMakeID" />
+          <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+          <ScalarProperty Name="ModelYear" ColumnName="ModelYear" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CoverageLevels">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.CoverageLevel">
+        <MappingFragment StoreEntitySet="CoverageLevels">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerAspNetUsers">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.CustomerAspNetUser">
+        <MappingFragment StoreEntitySet="CustomerAspNetUsers">
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerDrivingHistories">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.CustomerDrivingHistory">
+        <MappingFragment StoreEntitySet="CustomerDrivingHistory">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateRecorded" ColumnName="DateRecorded" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="NumDUIs" ColumnName="NumDUIs" />
+          <ScalarProperty Name="NumSpeedingTickets" ColumnName="NumSpeedingTickets" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.Customer">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.AspNetRole">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.AspNetUser">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="InsuranceQuoteDBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="UserId" />
+      </EndProperty>
+      <EndProperty Name="AspNetRole">
+        <ScalarProperty Name="Id" ColumnName="RoleId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="AutoMakes">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.AutoMake">
+        <MappingFragment StoreEntitySet="AutoMakes">
+          <ScalarProperty Name="MakeRiskLevelID" ColumnName="MakeRiskLevelID" />
+          <ScalarProperty Name="MakeName" ColumnName="MakeName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quotes">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.Quote">
+        <MappingFragment StoreEntitySet="Quotes">
+          <ScalarProperty Name="DateIssued" ColumnName="DateIssued" />
+          <ScalarProperty Name="PriceQuote" ColumnName="PriceQuote" />
+          <ScalarProperty Name="AutoOptionID" ColumnName="AutoOptionID" />
+          <ScalarProperty Name="CoverageID" ColumnName="CoverageID" />
+          <ScalarProperty Name="DrivingHistoryID" ColumnName="DrivingHistoryID" />
+          <ScalarProperty Name="AutoModelID" ColumnName="AutoModelID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AutoOptions">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.AutoOption">
+        <MappingFragment StoreEntitySet="AutoOptions">
+          <ScalarProperty Name="OptionRiskLevelId" ColumnName="OptionRiskLevelId" />
+          <ScalarProperty Name="PriceDollars" ColumnName="PriceDollars" />
+          <ScalarProperty Name="Horsepower" ColumnName="Horsepower" />
+          <ScalarProperty Name="CurbWeightLbs" ColumnName="CurbWeightLbs" />
+          <ScalarProperty Name="OptionDescription" ColumnName="OptionDescription" />
+          <ScalarProperty Name="AutoModelId" ColumnName="AutoModelId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MakeRiskLevels">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.MakeRiskLevel">
+        <MappingFragment StoreEntitySet="MakeRiskLevels">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="RiskLevel" ColumnName="RiskLevel" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ModelRiskLevels">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.ModelRiskLevel">
+        <MappingFragment StoreEntitySet="ModelRiskLevels">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="RiskLevel" ColumnName="RiskLevel" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OptionRiskLevels">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.OptionRiskLevel">
+        <MappingFragment StoreEntitySet="OptionRiskLevels">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="RiskLevel" ColumnName="RiskLevel" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Year_Make_Model_Trim_Full_Specs_by_Teoalida_SAMPLE">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.Year_Make_Model_Trim_Full_Specs_by_Teoalida_SAMPLE">
+        <MappingFragment StoreEntitySet="Year-Make-Model-Trim-Full-Specs-by-Teoalida-SAMPLE">
+          <ScalarProperty Name="Horsepower_HP" ColumnName="Horsepower_HP" />
+          <ScalarProperty Name="Curb_weight_lbs" ColumnName="Curb_weight_lbs" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Trim" ColumnName="Trim" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="Make" ColumnName="Make" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VisitorSessions">
+      <EntityTypeMapping TypeName="InsuranceQuoteDBModel.VisitorSession">
+        <MappingFragment StoreEntitySet="VisitorSessions">
+          <ScalarProperty Name="DrivingHistoryId" ColumnName="DrivingHistoryId" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

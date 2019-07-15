@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InsuranceQuoteDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AutoModel">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AutoMakeID" Type="Int32" />
+    <Property Name="ModelName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ModelYear" Type="Int32" />
+    <NavigationProperty Name="AutoMake" Relationship="InsuranceQuoteDBModel.FK_AutoMakeAutoModel" FromRole="AutoModel" ToRole="AutoMake" />
+    <NavigationProperty Name="Quotes" Relationship="InsuranceQuoteDBModel.FK__Quotes__AutoMode__2B0A656D" FromRole="AutoModel" ToRole="Quote" />
+    <Property Name="ModelRiskLevelID" Type="Int32" />
+    <NavigationProperty Name="AutoOptions" Relationship="InsuranceQuoteDBModel.FK_AutoModelAutoOption" FromRole="AutoModel" ToRole="AutoOption" />
+    <NavigationProperty Name="ModelRiskLevel" Relationship="InsuranceQuoteDBModel.FK_ModelRiskLevelAutoModel" FromRole="AutoModel" ToRole="ModelRiskLevel" />
+  </EntityType>
+  <EntityType Name="CoverageLevel">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Quotes" Relationship="InsuranceQuoteDBModel.FK__Quotes__Coverage__2CF2ADDF" FromRole="CoverageLevel" ToRole="Quote" />
+  </EntityType>
+  <EntityType Name="CustomerAspNetUser">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+      <PropertyRef Name="AspNetUserID" />
+    </Key>
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="AspNetUserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerCustomerLogin" FromRole="CustomerAspNetUsers" ToRole="Customers" />
+    <NavigationProperty Name="AspNetUser" Relationship="InsuranceQuoteDBModel.FK_AspNetUserCustomerLogin" FromRole="CustomerAspNetUser" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="CustomerDrivingHistory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DateRecorded" Type="DateTime" Precision="3" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="NumDUIs" Type="Int32" />
+    <Property Name="NumSpeedingTickets" Type="Int32" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerCustomerDrivingHistory" FromRole="CustomerDrivingHistory" ToRole="Customers" />
+    <NavigationProperty Name="Quotes" Relationship="InsuranceQuoteDBModel.FK__Quotes__DrivingH__2BFE89A6" FromRole="CustomerDrivingHistory" ToRole="Quote" />
+    <NavigationProperty Name="VisitorSessions" Relationship="InsuranceQuoteDBModel.FK_CustomerDrivingHistoryVisitorSessions" FromRole="CustomerDrivingHistory" ToRole="VisitorSession" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="CustomerAspNetUsers" Relationship="Self.FK_CustomerCustomerLogin" FromRole="Customers" ToRole="CustomerAspNetUsers" />
+    <NavigationProperty Name="CustomerDrivingHistories" Relationship="Self.FK_CustomerCustomerDrivingHistory" FromRole="Customers" ToRole="CustomerDrivingHistory" />
+    <NavigationProperty Name="Quotes" Relationship="InsuranceQuoteDBModel.FK__Quotes__Customer__29221CFB" FromRole="Customer" ToRole="Quote" />
+  </EntityType>
+  <Association Name="FK_CustomerCustomerLogin">
+    <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
+    <End Role="CustomerAspNetUsers" Type="Self.CustomerAspNetUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerAspNetUsers">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerCustomerDrivingHistory">
+    <End Role="Customers" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="CustomerDrivingHistory" Type="Self.CustomerDrivingHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerDrivingHistory">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="InsuranceQuoteDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AutoModels" EntityType="Self.AutoModel" />
+    <EntitySet Name="CoverageLevels" EntityType="Self.CoverageLevel" />
+    <EntitySet Name="CustomerAspNetUsers" EntityType="Self.CustomerAspNetUser" />
+    <EntitySet Name="CustomerDrivingHistories" EntityType="Self.CustomerDrivingHistory" />
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <AssociationSet Name="FK_CustomerCustomerLogin" Association="Self.FK_CustomerCustomerLogin">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="CustomerAspNetUsers" EntitySet="CustomerAspNetUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerCustomerDrivingHistory" Association="Self.FK_CustomerCustomerDrivingHistory">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="CustomerDrivingHistory" EntitySet="CustomerDrivingHistories" />
+    </AssociationSet>
+    <EntitySet Name="AspNetRoles" EntityType="InsuranceQuoteDBModel.AspNetRole" />
+    <EntitySet Name="AspNetUsers" EntityType="InsuranceQuoteDBModel.AspNetUser" />
+    <AssociationSet Name="AspNetUserRoles" Association="InsuranceQuoteDBModel.AspNetUserRoles">
+      <End Role="AspNetRole" EntitySet="AspNetRoles" />
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="AutoMakes" EntityType="InsuranceQuoteDBModel.AutoMake" />
+    <AssociationSet Name="FK_AutoMakeAutoModel" Association="InsuranceQuoteDBModel.FK_AutoMakeAutoModel">
+      <End Role="AutoMake" EntitySet="AutoMakes" />
+      <End Role="AutoModel" EntitySet="AutoModels" />
+    </AssociationSet>
+    <EntitySet Name="Quotes" EntityType="InsuranceQuoteDBModel.Quote" />
+    <AssociationSet Name="FK__Quotes__AutoMode__2B0A656D" Association="InsuranceQuoteDBModel.FK__Quotes__AutoMode__2B0A656D">
+      <End Role="AutoModel" EntitySet="AutoModels" />
+      <End Role="Quote" EntitySet="Quotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Quotes__Coverage__2CF2ADDF" Association="InsuranceQuoteDBModel.FK__Quotes__Coverage__2CF2ADDF">
+      <End Role="CoverageLevel" EntitySet="CoverageLevels" />
+      <End Role="Quote" EntitySet="Quotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Quotes__DrivingH__2BFE89A6" Association="InsuranceQuoteDBModel.FK__Quotes__DrivingH__2BFE89A6">
+      <End Role="CustomerDrivingHistory" EntitySet="CustomerDrivingHistories" />
+      <End Role="Quote" EntitySet="Quotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Quotes__Customer__29221CFB" Association="InsuranceQuoteDBModel.FK__Quotes__Customer__29221CFB">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Quote" EntitySet="Quotes" />
+    </AssociationSet>
+    <EntitySet Name="AutoOptions" EntityType="InsuranceQuoteDBModel.AutoOption" />
+    <EntitySet Name="MakeRiskLevels" EntityType="InsuranceQuoteDBModel.MakeRiskLevel" />
+    <EntitySet Name="ModelRiskLevels" EntityType="InsuranceQuoteDBModel.ModelRiskLevel" />
+    <EntitySet Name="OptionRiskLevels" EntityType="InsuranceQuoteDBModel.OptionRiskLevel" />
+    <EntitySet Name="Year_Make_Model_Trim_Full_Specs_by_Teoalida_SAMPLE" EntityType="InsuranceQuoteDBModel.Year_Make_Model_Trim_Full_Specs_by_Teoalida_SAMPLE" />
+    <AssociationSet Name="FK_AutoModelAutoOption" Association="InsuranceQuoteDBModel.FK_AutoModelAutoOption">
+      <End Role="AutoModel" EntitySet="AutoModels" />
+      <End Role="AutoOption" EntitySet="AutoOptions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Quotes__AutoOpti__6DCC4D03" Association="InsuranceQuoteDBModel.FK__Quotes__AutoOpti__6DCC4D03">
+      <End Role="AutoOption" EntitySet="AutoOptions" />
+      <End Role="Quote" EntitySet="Quotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OptionRiskLevelAutoOption" Association="InsuranceQuoteDBModel.FK_OptionRiskLevelAutoOption">
+      <End Role="OptionRiskLevel" EntitySet="OptionRiskLevels" />
+      <End Role="AutoOption" EntitySet="AutoOptions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AutoMakeRiskLevel" Association="InsuranceQuoteDBModel.FK_AutoMakeRiskLevel">
+      <End Role="MakeRiskLevel" EntitySet="MakeRiskLevels" />
+      <End Role="AutoMake" EntitySet="AutoMakes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ModelRiskLevelAutoModel" Association="InsuranceQuoteDBModel.FK_ModelRiskLevelAutoModel">
+      <End Role="ModelRiskLevel" EntitySet="ModelRiskLevels" />
+      <End Role="AutoModel" EntitySet="AutoModels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserCustomerLogin" Association="InsuranceQuoteDBModel.FK_AspNetUserCustomerLogin">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="CustomerAspNetUser" EntitySet="CustomerAspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="VisitorSessions" EntityType="InsuranceQuoteDBModel.VisitorSession" />
+    <AssociationSet Name="FK_CustomerDrivingHistoryVisitorSessions" Association="InsuranceQuoteDBModel.FK_CustomerDrivingHistoryVisitorSessions">
+      <End Role="CustomerDrivingHistory" EntitySet="CustomerDrivingHistories" />
+      <End Role="VisitorSession" EntitySet="VisitorSessions" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="InsuranceQuoteDBModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetRoles" Relationship="InsuranceQuoteDBModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+    <NavigationProperty Name="CustomerAspNetUsers" Relationship="InsuranceQuoteDBModel.FK_AspNetUserCustomerLogin" FromRole="AspNetUser" ToRole="CustomerAspNetUser" />
+  </EntityType>
+  <Association Name="AspNetUserRoles">
+    <End Type="InsuranceQuoteDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+    <End Type="InsuranceQuoteDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+  <EntityType Name="AutoMake">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MakeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="AutoModels" Relationship="InsuranceQuoteDBModel.FK_AutoMakeAutoModel" FromRole="AutoMake" ToRole="AutoModel" />
+    <Property Name="MakeRiskLevelID" Type="Int32" />
+    <NavigationProperty Name="MakeRiskLevel" Relationship="InsuranceQuoteDBModel.FK_AutoMakeRiskLevel" FromRole="AutoMake" ToRole="MakeRiskLevel" />
+  </EntityType>
+  <Association Name="FK_AutoMakeAutoModel">
+    <End Type="InsuranceQuoteDBModel.AutoMake" Role="AutoMake" Multiplicity="0..1" />
+    <End Type="InsuranceQuoteDBModel.AutoModel" Role="AutoModel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AutoMake">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AutoModel">
+        <PropertyRef Name="AutoMakeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Quote">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="AutoModelID" Type="Int32" />
+    <Property Name="DrivingHistoryID" Type="Int32" />
+    <Property Name="CoverageID" Type="Int32" />
+    <NavigationProperty Name="AutoModel" Relationship="InsuranceQuoteDBModel.FK__Quotes__AutoMode__2B0A656D" FromRole="Quote" ToRole="AutoModel" />
+    <NavigationProperty Name="CoverageLevel" Relationship="InsuranceQuoteDBModel.FK__Quotes__Coverage__2CF2ADDF" FromRole="Quote" ToRole="CoverageLevel" />
+    <NavigationProperty Name="CustomerDrivingHistory" Relationship="InsuranceQuoteDBModel.FK__Quotes__DrivingH__2BFE89A6" FromRole="Quote" ToRole="CustomerDrivingHistory" />
+    <NavigationProperty Name="Customer" Relationship="InsuranceQuoteDBModel.FK__Quotes__Customer__29221CFB" FromRole="Quote" ToRole="Customer" />
+    <Property Name="AutoOptionID" Type="Int32" />
+    <Property Name="PriceQuote" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="AutoOption" Relationship="InsuranceQuoteDBModel.FK__Quotes__AutoOpti__6DCC4D03" FromRole="Quote" ToRole="AutoOption" />
+    <Property Name="DateIssued" Type="DateTime" Precision="3" />
+  </EntityType>
+  <Association Name="FK__Quotes__AutoMode__2B0A656D">
+    <End Type="InsuranceQuoteDBModel.AutoModel" Role="AutoModel" Multiplicity="0..1" />
+    <End Type="InsuranceQuoteDBModel.Quote" Role="Quote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AutoModel">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quote">
+        <PropertyRef Name="AutoModelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Quotes__Coverage__2CF2ADDF">
+    <End Type="InsuranceQuoteDBModel.CoverageLevel" Role="CoverageLevel" Multiplicity="0..1" />
+    <End Type="InsuranceQuoteDBModel.Quote" Role="Quote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CoverageLevel">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quote">
+        <PropertyRef Name="CoverageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Quotes__DrivingH__2BFE89A6">
+    <End Type="InsuranceQuoteDBModel.CustomerDrivingHistory" Role="CustomerDrivingHistory" Multiplicity="0..1" />
+    <End Type="InsuranceQuoteDBModel.Quote" Role="Quote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerDrivingHistory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quote">
+        <PropertyRef Name="DrivingHistoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Quotes__Customer__29221CFB">
+    <End Type="InsuranceQuoteDBModel.Customer" Role="Customer" Multiplicity="0..1" />
+    <End Type="InsuranceQuoteDBModel.Quote" Role="Quote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quote">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="AutoOption">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AutoModelId" Type="Int32" />
+    <Property Name="OptionDescription" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="CurbWeightLbs" Type="Int16" />
+    <Property Name="Horsepower" Type="Int16" />
+    <Property Name="PriceDollars" Type="Int32" />
+    <Property Name="OptionRiskLevelId" Type="Int32" />
+    <NavigationProperty Name="AutoModel" Relationship="InsuranceQuoteDBModel.FK_AutoModelAutoOption" FromRole="AutoOption" ToRole="AutoModel" />
+    <NavigationProperty Name="Quotes" Relationship="InsuranceQuoteDBModel.FK__Quotes__AutoOpti__6DCC4D03" FromRole="AutoOption" ToRole="Quote" />
+    <NavigationProperty Name="OptionRiskLevel" Relationship="InsuranceQuoteDBModel.FK_OptionRiskLevelAutoOption" FromRole="AutoOption" ToRole="OptionRiskLevel" />
+  </EntityType>
+  <EntityType Name="MakeRiskLevel">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RiskLevel" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="AutoMakes" Relationship="InsuranceQuoteDBModel.FK_AutoMakeRiskLevel" FromRole="MakeRiskLevel" ToRole="AutoMake" />
+  </EntityType>
+  <EntityType Name="ModelRiskLevel">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RiskLevel" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="AutoModels" Relationship="InsuranceQuoteDBModel.FK_ModelRiskLevelAutoModel" FromRole="ModelRiskLevel" ToRole="AutoModel" />
+  </EntityType>
+  <EntityType Name="OptionRiskLevel">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RiskLevel" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="AutoOptions" Relationship="InsuranceQuoteDBModel.FK_OptionRiskLevelAutoOption" FromRole="OptionRiskLevel" ToRole="AutoOption" />
+  </EntityType>
+  <EntityType Name="Year_Make_Model_Trim_Full_Specs_by_Teoalida_SAMPLE">
+    <Key>
+      <PropertyRef Name="Make" />
+      <PropertyRef Name="Model" />
+      <PropertyRef Name="Year" />
+      <PropertyRef Name="Trim" />
+    </Key>
+    <Property Name="Make" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Model" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Year" Type="Int16" Nullable="false" />
+    <Property Name="Trim" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Int32" />
+    <Property Name="Curb_weight_lbs" Type="Int16" />
+    <Property Name="Horsepower_HP" Type="Int16" />
+  </EntityType>
+  <Association Name="FK_AutoModelAutoOption">
+    <End Type="InsuranceQuoteDBModel.AutoModel" Role="AutoModel" Multiplicity="0..1" />
+    <End Type="InsuranceQuoteDBModel.AutoOption" Role="AutoOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AutoModel">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AutoOption">
+        <PropertyRef Name="AutoModelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Quotes__AutoOpti__6DCC4D03">
+    <End Type="InsuranceQuoteDBModel.AutoOption" Role="AutoOption" Multiplicity="0..1" />
+    <End Type="InsuranceQuoteDBModel.Quote" Role="Quote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AutoOption">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Quote">
+        <PropertyRef Name="AutoOptionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OptionRiskLevelAutoOption">
+    <End Type="InsuranceQuoteDBModel.OptionRiskLevel" Role="OptionRiskLevel" Multiplicity="0..1" />
+    <End Type="InsuranceQuoteDBModel.AutoOption" Role="AutoOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OptionRiskLevel">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AutoOption">
+        <PropertyRef Name="OptionRiskLevelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AutoMakeRiskLevel">
+    <End Type="InsuranceQuoteDBModel.MakeRiskLevel" Role="MakeRiskLevel" Multiplicity="0..1" />
+    <End Type="InsuranceQuoteDBModel.AutoMake" Role="AutoMake" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MakeRiskLevel">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AutoMake">
+        <PropertyRef Name="MakeRiskLevelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ModelRiskLevelAutoModel">
+    <End Type="InsuranceQuoteDBModel.ModelRiskLevel" Role="ModelRiskLevel" Multiplicity="0..1" />
+    <End Type="InsuranceQuoteDBModel.AutoModel" Role="AutoModel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ModelRiskLevel">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AutoModel">
+        <PropertyRef Name="ModelRiskLevelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUserCustomerLogin">
+    <End Type="InsuranceQuoteDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="InsuranceQuoteDBModel.CustomerAspNetUser" Role="CustomerAspNetUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerAspNetUser">
+        <PropertyRef Name="AspNetUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="VisitorSession">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+    <Property Name="DrivingHistoryId" Type="Int32" />
+    <NavigationProperty Name="CustomerDrivingHistory" Relationship="InsuranceQuoteDBModel.FK_CustomerDrivingHistoryVisitorSessions" FromRole="VisitorSession" ToRole="CustomerDrivingHistory" />
+  </EntityType>
+  <Association Name="FK_CustomerDrivingHistoryVisitorSessions">
+    <End Type="InsuranceQuoteDBModel.CustomerDrivingHistory" Role="CustomerDrivingHistory" Multiplicity="0..1" />
+    <End Type="InsuranceQuoteDBModel.VisitorSession" Role="VisitorSession" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerDrivingHistory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VisitorSession">
+        <PropertyRef Name="DrivingHistoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

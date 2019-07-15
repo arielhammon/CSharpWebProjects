@@ -1,0 +1,79 @@
+﻿@model InsuranceQuoteDB.Models.QuoteSummaryVM
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Quote Summary</h2>
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col-sm-2">
+                Customer Name
+            </th>
+            <th class="col-sm-1">
+                Make
+            </th>
+            <th class="col-sm-1">
+                Model
+            </th>
+            <th class="col-sm-1">
+                Model Year
+            </th>
+            <th class="col-sm-3">
+                Option Package
+            </th>
+            <th class="col-sm-2">
+                Coverage
+            </th>
+            <th class="col-sm-1">
+                Date
+            </th>
+            <th class="col-sm-1 text-right">
+                Price&nbsp;
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+        <tr>
+            <td>
+                @Model.CustomerName
+            </td>
+            <td>
+                @Model.Make
+            </td>
+            <td>
+                @Model.Model
+            </td>
+            <td>
+                @Model.ModelYear
+            </td>
+            <td>
+                @Model.OptionPackage
+            </td>
+            <td>
+                @Model.Coverage
+            </td>
+            <td>
+                @Model.DateIssued.ToString("MM/dd/yyyy")
+            </td>
+            <td class="text-right">
+                @Model.Price
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<div class="row">
+    <div class="col-sm-2">
+        <input class="form-control" type="button" onclick="location='/Quotes/Create'" value="Get Another Quote" />
+    </div>
+    <div class="col-sm-2">
+        <input class="form-control" type="button" onclick="location='/Quotes/Index'" value="See All Quotes" />
+    </div>
+</div>
