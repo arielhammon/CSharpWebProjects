@@ -1,0 +1,214 @@
+﻿@using InsuranceQuoteDB.Models
+@model QuoteVM
+
+@{
+    ViewBag.Title = "Get New Quote";
+}
+
+<h2>Get New Quote</h2>
+
+<form action="GetQuote" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Quote</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Customer</label>
+            <div class="col-md-10">
+                <input name="CustomerId" value="@Model.CustomerID" hidden />
+                <input class="form-control" value="@Model.CustomerName" />
+            </div>
+        </div>
+        <!--------------------Start Visitor only section, already on file for logged in users-------------->
+        @if (Model.IsVisitor)
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="Login?" class="btn btn-default" onclick="location='/Account/Login'" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    Or continue below as Visitor:
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label class="control-label col-md-2">Date of Birth</label>
+                <div class="col-md-10">
+                    <input name="DateOfBirth" type="date" class="form-control" value="@Model.DateOfBirth" />
+                    @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        <!--------------------------------End Visitor Only Section--------------------------------------------->
+        <!--------------------------------Start Driving History Section---------------------------------------->
+
+        @if (Model.HasDrivingHistory)
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    Please update your driving history:
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Number DUIs</label>
+            <div class="col-md-10">
+                <input name="NumDUIs" class="form-control" value="@Model.NumDUIs" />
+                @Html.ValidationMessageFor(model => model.NumDUIs, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Number Speeding Tickets</label>
+            <div class="col-md-10">
+                <input name="NumSpeedingTickets" class="form-control" value="@Model.NumSpeedingTickets" />
+                @Html.ValidationMessageFor(model => model.NumSpeedingTickets, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!--------------------------------End Driving History Section---------------------------------------->
+        <!--------------------------------Start Auto Make, Model, Options Section-------------------------------->
+        <div class="form-group">
+            <label class="control-label col-md-2">Make</label>
+            <div class="col-md-10">
+                <select id="MakeID" class="form-control">
+                    <option value="-1">Please select the make</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Year</label>
+            <div class="col-md-10">
+                <select id="ModelYear" class="form-control" disabled>
+                    <option value="-1">Please select the year</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Model</label>
+            <div class="col-md-10">
+                <select id="ModelID" name="AutoModelID" class="form-control" disabled>
+                    <option value="-1">Please select the model</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.AutoModelID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Option Package</label>
+            <div class="col-md-10">
+                <select id="OptionID" name="AutoOptionID" class="form-control" disabled>
+                    <option value="-1">Please select an option package</option>
+                </select>
+            </div>
+        </div>
+        <!--------------------------------End Auto Make, Model, Options Section-------------------------------->
+        <div class="form-group">
+            <label class="control-label col-md-2">Coverage Option</label>
+            <div class="col-md-10">
+                @Html.DropDownList("CoverageID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CoverageID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Get Quote" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@if (!Model.IsVisitor)
+{
+    <div class="row">
+        <div class="col-sm-2">
+            <input class="form-control" type="button" onclick="location='/Quotes/Index'" value="See All Quotes" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+    //cache the select elements (dropdownboxes)
+    var makeElem = document.getElementById('MakeID');
+    var yearElem = document.getElementById('ModelYear');
+    var modelElem = document.getElementById('ModelID');
+    var optionElem = document.getElementById('OptionID');
+
+    function populateDropDown(pairsArray, elem) {
+        if (typeof (pairsArray) != 'undefined' && pairsArray != null) {
+            var changed = (elem.children.length > 1) || (pairsArray.length > 0);
+            //remove all but the header
+            for (var i = elem.children.length - 1; i > 0; i--) {
+                elem.removeChild(elem.children[i]);
+            }
+            //add new options from pairsArray
+            for (var i = 0; i < pairsArray.length; i++) {
+                var opt = document.createElement("option");
+                var pair = pairsArray[i];
+                opt.value = pair.ID;
+                opt.innerHTML = pair.Name;
+                elem.appendChild(opt);
+            }
+            if (pairsArray.length > 0) {
+                elem.disabled = false;
+            }
+            else {
+                elem.disabled = true;
+            }
+            if (changed) elem.onchange();
+        }
+    }
+
+    function UpdateDropDown(url, elem) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var array = JSON.parse(xhttp.response);
+                populateDropDown(array, elem);
+            }
+        }
+        try {
+            xhttp.open("GET", url, true)
+            xhttp.send();
+        }
+        catch (ex) {
+            alert("Sorry, something went wrong. Let's reload and try again.")
+            document.location.reload();
+        }
+    }
+
+    makeElem.onchange = function (Event) {
+        var id = makeElem.value;
+        UpdateDropDown('@Url.Action("FetchYears", "Quotes")' + '?AutoMakeID=' + id, yearElem);
+    }
+    yearElem.onchange = function (Event) {
+        var id = makeElem.value;
+        var year = yearElem.value;
+        UpdateDropDown('@Url.Action("FetchModels", "Quotes")' + '?AutoMakeID=' + id + '&AutoYear=' + year, modelElem);
+    }
+    modelElem.onchange = function (Event) {
+        var id = modelElem.value;
+        UpdateDropDown('@Url.Action("FetchOptions", "Quotes")' + '?AutoModelID=' + id, optionElem);
+    }
+    optionElem.onchange = function (Event) {
+        optionElemInput.value = optionElem.value;
+    }
+
+    $(document).ready(function () {
+        UpdateDropDown('@Url.Action("FetchMakes", "Quotes")', makeElem);
+    });
+
+    </script>
+}

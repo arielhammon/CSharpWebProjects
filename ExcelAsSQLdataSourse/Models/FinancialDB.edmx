@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FinancialModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ImportSets">
+          <Key>
+            <PropertyRef Name="SetID" />
+            <PropertyRef Name="LineNum" />
+          </Key>
+          <Property Name="SetID" Type="int" Nullable="false" />
+          <Property Name="LineNum" Type="int" Nullable="false" />
+          <Property Name="Segment" Type="varchar" MaxLength="32" />
+          <Property Name="Country" Type="varchar" MaxLength="32" />
+          <Property Name="Product" Type="varchar" MaxLength="32" />
+          <Property Name="DiscountBand" Type="varchar" MaxLength="32" />
+          <Property Name="UnitsSold" Type="float" />
+          <Property Name="ManufacturingPrice" Type="float" />
+          <Property Name="SalesPrice" Type="float" />
+          <Property Name="GrossSales" Type="float" />
+          <Property Name="Discounts" Type="float" />
+          <Property Name="Sales" Type="float" />
+          <Property Name="COGS" Type="float" />
+          <Property Name="Profit" Type="float" />
+          <Property Name="DateOf" Type="date" />
+        </EntityType>
+        <EntityType Name="SetNames">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="DateUploaded" Type="datetime" Nullable="false" />
+          <Property Name="HasErrors" Type="bit" />
+        </EntityType>
+        <Association Name="FK_SetNameID_SetID">
+          <End Role="SetNames" Type="Self.SetNames" Multiplicity="1" />
+          <End Role="ImportSets" Type="Self.ImportSets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SetNames">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ImportSets">
+              <PropertyRef Name="SetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FinancialModelStoreContainer">
+          <EntitySet Name="ImportSets" EntityType="Self.ImportSets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SetNames" EntityType="Self.SetNames" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_SetNameID_SetID" Association="Self.FK_SetNameID_SetID">
+            <End Role="SetNames" EntitySet="SetNames" />
+            <End Role="ImportSets" EntitySet="ImportSets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FinancialModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ImportSet">
+          <Key>
+            <PropertyRef Name="SetID" />
+            <PropertyRef Name="LineNum" />
+          </Key>
+          <Property Name="SetID" Type="Int32" Nullable="false" />
+          <Property Name="LineNum" Type="Int32" Nullable="false" />
+          <Property Name="Segment" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Product" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="DiscountBand" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="UnitsSold" Type="Double" />
+          <Property Name="ManufacturingPrice" Type="Double" />
+          <Property Name="SalesPrice" Type="Double" />
+          <Property Name="GrossSales" Type="Double" />
+          <Property Name="Discounts" Type="Double" />
+          <Property Name="Sales" Type="Double" />
+          <Property Name="COGS" Type="Double" />
+          <Property Name="Profit" Type="Double" />
+          <Property Name="DateOf" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="SetName" Relationship="FinancialModel.FK_SetNameID_SetID" FromRole="ImportSet" ToRole="SetName" />
+        </EntityType>
+        <EntityType Name="SetName">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateUploaded" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ImportSets" Relationship="FinancialModel.FK_SetNameID_SetID" FromRole="SetName" ToRole="ImportSet" />
+          <Property Name="HasErrors" Type="Boolean" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="FinancialDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ImportSets" EntityType="Self.ImportSet" />
+          <EntitySet Name="SetNames" EntityType="Self.SetName" />
+          <AssociationSet Name="FK_SetNameID_SetID" Association="FinancialModel.FK_SetNameID_SetID">
+            <End Role="SetName" EntitySet="SetNames" />
+            <End Role="ImportSet" EntitySet="ImportSets" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_SetNameID_SetID">
+          <End Type="FinancialModel.SetName" Role="SetName" Multiplicity="1" />
+          <End Type="FinancialModel.ImportSet" Role="ImportSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SetName">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ImportSet">
+              <PropertyRef Name="SetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FinancialModelStoreContainer" CdmEntityContainer="FinancialDBEntities">
+          <EntitySetMapping Name="ImportSets">
+            <EntityTypeMapping TypeName="FinancialModel.ImportSet">
+              <MappingFragment StoreEntitySet="ImportSets">
+                <ScalarProperty Name="SetID" ColumnName="SetID" />
+                <ScalarProperty Name="LineNum" ColumnName="LineNum" />
+                <ScalarProperty Name="Segment" ColumnName="Segment" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="DiscountBand" ColumnName="DiscountBand" />
+                <ScalarProperty Name="UnitsSold" ColumnName="UnitsSold" />
+                <ScalarProperty Name="ManufacturingPrice" ColumnName="ManufacturingPrice" />
+                <ScalarProperty Name="SalesPrice" ColumnName="SalesPrice" />
+                <ScalarProperty Name="GrossSales" ColumnName="GrossSales" />
+                <ScalarProperty Name="Discounts" ColumnName="Discounts" />
+                <ScalarProperty Name="Sales" ColumnName="Sales" />
+                <ScalarProperty Name="COGS" ColumnName="COGS" />
+                <ScalarProperty Name="Profit" ColumnName="Profit" />
+                <ScalarProperty Name="DateOf" ColumnName="DateOf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SetNames">
+            <EntityTypeMapping TypeName="FinancialModel.SetName">
+              <MappingFragment StoreEntitySet="SetNames">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="HasErrors" ColumnName="HasErrors" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="DateUploaded" ColumnName="DateUploaded" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,125 @@
+﻿@using ExcelAsSQLdataSourse.Models
+
+@model List<ImportSetExcelRow>
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<h2>Results</h2>
+
+@foreach (ImportSetExcelRow row in Model)
+{
+    if (row.HasError)
+    {
+        <div style="color:darkred">
+            Row @row.ImportSet.LineNum was not imported. It has the following error(s):
+        </div>
+        foreach (string item in row.Errors)
+        {
+            <div>
+                &nbsp;&nbsp;&nbsp;
+                @item
+            </div>
+        }
+    }
+}
+
+
+<table class="table-bordered">
+    <tr>
+        <th style="width:5%">
+            Row #
+        </th>
+        <th style="width:10%">
+            Segment
+        </th>
+        <th style="width:10%">
+            Country
+        </th>
+        <th style="width:5%">
+            Product
+        </th>
+        <th style="width:5%">
+            Discount Band
+        </th>
+        <th style="width:5%">
+            Units Sold
+        </th>
+        <th style="width:5%">
+            Mfg Price
+        </th>
+        <th style="width:5%">
+            Sale Price
+        </th>
+        <th style="width:10%">
+            Gross Sales
+        </th>
+        <th style="width:5%">
+            Discounts
+        </th>
+        <th style="width:10%">
+            Sales
+        </th>
+        <th style="width:10%">
+            COGS
+        </th>
+        <th style="width:10%">
+            Profit
+        </th>
+        <th style="width:5%">
+            Date
+        </th>
+    </tr>
+    @foreach (ImportSetExcelRow row in Model)
+    {
+        if (!row.HasError)
+        {
+            <tr>
+                <td>
+                    @row.ImportSet.LineNum
+                </td>
+                <td>
+                    @row.ImportSet.Segment
+                </td>
+                <td>
+                    @row.ImportSet.Country
+                </td>
+                <td>
+                    @row.ImportSet.Product
+                </td>
+                <td>
+                    @row.ImportSet.DiscountBand
+                </td>
+                <td style="text-align: right">
+                    @row.ImportSet.UnitsSold
+                </td>
+                <td style="text-align: right">
+                    @Convert.ToDouble(row.ImportSet.ManufacturingPrice).ToString("C")
+                </td>
+                <td style="text-align: right">
+                    @Convert.ToDouble(row.ImportSet.SalesPrice).ToString("C")
+                </td>
+                <td style="text-align: right">
+                    @Convert.ToDouble(row.ImportSet.GrossSales).ToString("C")
+                </td>
+                <td style="text-align: right">
+                    @Convert.ToDouble(row.ImportSet.Discounts).ToString("C")
+                </td>
+                <td style="text-align: right">
+                    @Convert.ToDouble(row.ImportSet.Sales).ToString("C")
+                </td>
+                <td style="text-align: right">
+                    @Convert.ToDouble(row.ImportSet.COGS).ToString("C")
+                </td>
+                <td style="text-align: right">
+                    @Convert.ToDouble(row.ImportSet.Profit).ToString("C")
+                </td>
+                <td style="text-align: right">
+                    @Convert.ToDateTime(row.ImportSet.DateOf).ToString("MM/dd/yyyy")
+                </td>
+            </tr>
+        }
+    }
+
+</table>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FinancialModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ImportSets">
+    <Key>
+      <PropertyRef Name="SetID" />
+      <PropertyRef Name="LineNum" />
+    </Key>
+    <Property Name="SetID" Type="int" Nullable="false" />
+    <Property Name="LineNum" Type="int" Nullable="false" />
+    <Property Name="Segment" Type="varchar" MaxLength="32" />
+    <Property Name="Country" Type="varchar" MaxLength="32" />
+    <Property Name="Product" Type="varchar" MaxLength="32" />
+    <Property Name="DiscountBand" Type="varchar" MaxLength="32" />
+    <Property Name="UnitsSold" Type="float" />
+    <Property Name="ManufacturingPrice" Type="float" />
+    <Property Name="SalesPrice" Type="float" />
+    <Property Name="GrossSales" Type="float" />
+    <Property Name="Discounts" Type="float" />
+    <Property Name="Sales" Type="float" />
+    <Property Name="COGS" Type="float" />
+    <Property Name="Profit" Type="float" />
+    <Property Name="DateOf" Type="date" />
+  </EntityType>
+  <EntityType Name="SetNames">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="DateUploaded" Type="datetime" Nullable="false" />
+    <Property Name="HasErrors" Type="bit" />
+  </EntityType>
+  <Association Name="FK_SetNameID_SetID">
+    <End Role="SetNames" Type="Self.SetNames" Multiplicity="1" />
+    <End Role="ImportSets" Type="Self.ImportSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SetNames">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ImportSets">
+        <PropertyRef Name="SetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FinancialModelStoreContainer">
+    <EntitySet Name="ImportSets" EntityType="Self.ImportSets" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SetNames" EntityType="Self.SetNames" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_SetNameID_SetID" Association="Self.FK_SetNameID_SetID">
+      <End Role="SetNames" EntitySet="SetNames" />
+      <End Role="ImportSets" EntitySet="ImportSets" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

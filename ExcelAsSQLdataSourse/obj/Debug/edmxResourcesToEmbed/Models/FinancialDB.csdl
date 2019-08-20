@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FinancialModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ImportSet">
+    <Key>
+      <PropertyRef Name="SetID" />
+      <PropertyRef Name="LineNum" />
+    </Key>
+    <Property Name="SetID" Type="Int32" Nullable="false" />
+    <Property Name="LineNum" Type="Int32" Nullable="false" />
+    <Property Name="Segment" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="Country" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="Product" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="DiscountBand" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="UnitsSold" Type="Double" />
+    <Property Name="ManufacturingPrice" Type="Double" />
+    <Property Name="SalesPrice" Type="Double" />
+    <Property Name="GrossSales" Type="Double" />
+    <Property Name="Discounts" Type="Double" />
+    <Property Name="Sales" Type="Double" />
+    <Property Name="COGS" Type="Double" />
+    <Property Name="Profit" Type="Double" />
+    <Property Name="DateOf" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="SetName" Relationship="FinancialModel.FK_SetNameID_SetID" FromRole="ImportSet" ToRole="SetName" />
+  </EntityType>
+  <EntityType Name="SetName">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DateUploaded" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="ImportSets" Relationship="FinancialModel.FK_SetNameID_SetID" FromRole="SetName" ToRole="ImportSet" />
+    <Property Name="HasErrors" Type="Boolean" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="FinancialDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ImportSets" EntityType="Self.ImportSet" />
+    <EntitySet Name="SetNames" EntityType="Self.SetName" />
+    <AssociationSet Name="FK_SetNameID_SetID" Association="FinancialModel.FK_SetNameID_SetID">
+      <End Role="SetName" EntitySet="SetNames" />
+      <End Role="ImportSet" EntitySet="ImportSets" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_SetNameID_SetID">
+    <End Type="FinancialModel.SetName" Role="SetName" Multiplicity="1" />
+    <End Type="FinancialModel.ImportSet" Role="ImportSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SetName">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ImportSet">
+        <PropertyRef Name="SetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

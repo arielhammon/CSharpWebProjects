@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Excel As SQL Data Source</h1>
+    <p class="lead">This MVC ASP.NET app imports data from an Excel worksheet using XML.</p>
+    <p><a href="~/Import/Index" class="btn btn-primary btn-lg">Import Excel Sheet &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>XML</h2>
+        <p>
+            An Excel workbook is a compressed (zipped) collection of XML files. This demo app provides
+            users with a sample workbook and allows users to edit the data, then import to a SQL database.
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Error Reporting</h2>
+        <p>This app provides detailed feedback to the user when something goes wrong. This means that if a particular
+        cell (or cells) is causing a row to not import, the app alerts the user of which particular data item (or items) is causing the problem.
+        Rows without errors are imported with a unique set name which allows users to easily reverse the import process if desired.</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Metadata</h2>
+        <p>This app also demonstrates the use of a metadata type and extension methods to set and retrieve (through reflection) data attributes
+        for data validation and database entities.</p>
+    </div>
+</div>
