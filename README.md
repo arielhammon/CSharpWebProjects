@@ -4,6 +4,7 @@ A collection of basic web app demos.
 ## ContosoUniversity
 This is an ASP.NET MVC, C#, code-first database application.
 It models a hypothetical school with students, professors, departments, courses, office-locations, budgets, etc.
+
 Highlights:
 1. Code-first database interface
 2. Numerous database migrations demonstrating how to manage changes to a database structure
@@ -16,6 +17,7 @@ Highlights:
 ## ExcelAsSQLdataSource
 This is an ASP.NET MVC, C#, database-first database application.
 It models a hypothetical company financial analysis with thirteen fields (criteria)
+
 Highlights:
 1. Database-first database interface
 2. Uploading/downloading files to/from the server
@@ -29,6 +31,7 @@ Highlights:
 ## InsuranceQuoteDB
 This is an ASP.NET MVC, C#, database-first database application.
 It models a hypothetical auto insurance quote system.
+
 Highlights:
 1. Third Normal Form (3NF) database design
 2. Business logic layer (specific to risk factors in the insurance field)
