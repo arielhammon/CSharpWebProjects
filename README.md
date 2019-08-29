@@ -14,6 +14,8 @@ Highlights:
 6. CRUD (create-read-update-delete) database operations for all major tables (types)
 7. ViewModels
 
+[Goto code repository](https://github.com/arielhammon/CSharpWebProjects/tree/master/ContosoUniversity)
+
 ## ExcelAsSQLdataSource
 This is an ASP.NET MVC, C#, database-first database application.
 It models a hypothetical company financial analysis with thirteen fields (criteria)
@@ -28,6 +30,8 @@ Highlights:
 7. Detailed error reporting so that user knows exactly which lines/fields are causing import errors
 8. ViewModels
 
+[Goto code repository](https://github.com/arielhammon/CSharpWebProjects/tree/master/ExcelAsSQLdataSourse)
+
 ## InsuranceQuoteDB
 This is an ASP.NET MVC, C#, database-first database application.
 It models a hypothetical auto insurance quote system.
@@ -40,6 +44,10 @@ Highlights:
 5. Allows users to save quotes and update driving history
 6. ViewModels
 
+[Goto code repository](https://github.com/arielhammon/CSharpWebProjects/tree/master/InsuranceQuoteDB)
+
 ## StudentManagementSystem
 This is a basic ASP.NET MVC, C#, database-first database application.
 It models a hypothetical student database with basic CRUD functionality.
+
+[Goto code repository](https://github.com/arielhammon/CSharpWebProjects/tree/master/StudentManagementSystem)
